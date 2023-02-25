@@ -15,7 +15,7 @@ export default function Blogs() {
 	return (
 		<div>
 			{blogs.map(blog => (
-				<div>{blog.title}</div>
+				<div key={blog.title}>{blog.title}</div>
 			))}
 		</div>
 	)
