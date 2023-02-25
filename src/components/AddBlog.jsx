@@ -5,7 +5,7 @@ const AddBlog = () => {
 	const [data, setData] = useState({ title: '', description: '' })
 
 	const handleSubmit = e => {
-		// e.preventDefault()
+		e.preventDefault()
 		setData({ title: '', description: '' })
 		axios
 			.post('/api/addBlog', {
