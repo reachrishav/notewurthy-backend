@@ -9,7 +9,7 @@ export default function App() {
 	return (
 		<div className="App">
 			<Header />
-			<AddBlog style={{ marginBottom: '5rem' }} />
+			<AddBlog />
 			<Blogs />
 			<Footer />
 		</div>

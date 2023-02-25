@@ -5,7 +5,8 @@ const AddBlog = () => {
 	const [data, setData] = useState({ title: '', description: '' })
 
 	const handleSubmit = e => {
-		e.preventDefault()
+		// e.preventDefault()
+		setData({ title: '', description: '' })
 		axios
 			.post('/api/addBlog', {
 				title: data.title,
@@ -20,7 +21,6 @@ const AddBlog = () => {
 		const newData = { ...data }
 		newData[e.target.id] = e.target.value
 		setData(newData)
-		console.log(newData)
 	}
 
 	return (
