@@ -1,7 +1,9 @@
 const { MongoClient } = require('mongodb')
 require('dotenv').config()
 
-const mongoClient = new MongoClient(process.env.MONGO_URI)
+const mongoClient = new MongoClient(process.env.MONGO_URI, {
+	useNewUrlParser: true,
+})
 
 const clientPromise = mongoClient.connect()
 
