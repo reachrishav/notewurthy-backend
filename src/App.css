@@ -12,7 +12,11 @@
 	color: aliceblue;
 }
 
+#root{
+	border-top: 3px solid #676bdc;
+}
 .App {
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	gap: 5rem;

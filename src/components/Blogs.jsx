@@ -7,8 +7,8 @@ export default function Blogs() {
 	useEffect(() => {
 		const fetchBlogs = async () => {
 			const res = await axios.get('/api/fetchBlogs')
-			const allblogs = res.data.data.map(x => x.data)
-			setBlogs(allblogs)
+			// const allblogs = res.data.data.map(x => x.data)
+			setBlogs(res.data)
 		}
 		fetchBlogs()
 	}, [])

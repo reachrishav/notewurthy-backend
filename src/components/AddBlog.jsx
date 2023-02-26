@@ -4,17 +4,22 @@ import axios from 'axios'
 const AddBlog = () => {
 	const [data, setData] = useState({ title: '', description: '' })
 
-	const handleSubmit = e => {
-		e.preventDefault()
+	const handleSubmit = async (e) => {
+		// e.preventDefault()
+		await axios
+		.post('/api/addBlog', {
+			title: data.title,
+			description: data.description,
+		})
+		.then(res => {
+			console.log(res.data)
+		})
 		setData({ title: '', description: '' })
-		axios
-			.post('/api/addBlog', {
-				title: data.title,
-				description: data.description,
-			})
-			.then(res => {
-				console.log(res.data)
-			})
+		// fetch("http://localhost:8888/.netlify/functions/addBlog",
+		// 	{
+		// 		body: JSON.stringify(data),
+		// 		method: "post"
+		// 	});
 	}
 
 	const handleChange = e => {
