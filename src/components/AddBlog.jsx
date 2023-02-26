@@ -5,8 +5,7 @@ const AddBlog = () => {
 	const [data, setData] = useState({ title: '', description: '' })
 
 	const handleSubmit = async (e) => {
-		// e.preventDefault()
-		await axios
+		const res = await axios
 		.post('/api/addBlog', {
 			title: data.title,
 			description: data.description,
@@ -14,12 +13,9 @@ const AddBlog = () => {
 		.then(res => {
 			console.log(res.data)
 		})
+		.catch(e => console.log(e))
 		setData({ title: '', description: '' })
-		// fetch("http://localhost:8888/.netlify/functions/addBlog",
-		// 	{
-		// 		body: JSON.stringify(data),
-		// 		method: "post"
-		// 	});
+		window.location.reload()
 	}
 
 	const handleChange = e => {
@@ -30,7 +26,7 @@ const AddBlog = () => {
 
 	return (
 		<div className="blog-add-form">
-			<form onSubmit={e => handleSubmit(e)}>
+			<form>
 				<label htmlFor="blogTitle" className="form-item">
 					Title
 				</label>
@@ -55,7 +51,7 @@ const AddBlog = () => {
 					placeholder="Blog Description"
 				/>
 				<br />
-				<button className="btn-submit" type="submit">
+				<button className="btn-submit" type="button" onClick={e => handleSubmit(e)}>
 					Add
 				</button>
 			</form>
