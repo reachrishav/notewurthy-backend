@@ -5,7 +5,7 @@ const AddBlog = () => {
   const [data, setData] = useState({ title: "", description: "" })
 
   const handleSubmit = async e => {
-    const res = await axios
+    await axios
       .post("/api/addBlog", {
         title: data.title,
         description: data.description,
@@ -15,7 +15,7 @@ const AddBlog = () => {
       })
       .catch(e => console.log(e))
     setData({ title: "", description: "" })
-    // window.location.reload()
+    window.location.reload()
   }
 
   const handleChange = e => {
