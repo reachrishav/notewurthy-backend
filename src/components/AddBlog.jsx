@@ -5,6 +5,7 @@ const AddBlog = () => {
   const [data, setData] = useState({ title: "", description: "" })
 
   const handleSubmit = async e => {
+    e.preventDefault()
     await axios
       .post("/api/addBlog", {
         title: data.title,
@@ -26,7 +27,7 @@ const AddBlog = () => {
 
   return (
     <div className='blog-add-form'>
-      <form>
+      <form onSubmit={e => handleSubmit(e)}>
         <label htmlFor='blogTitle' className='form-item'>
           Title
         </label>
@@ -51,11 +52,7 @@ const AddBlog = () => {
           placeholder='Blog Description'
         />
         <br />
-        <button
-          className='btn-submit'
-          type='button'
-          onClick={e => handleSubmit(e)}
-        >
+        <button className='btn-submit' type='submit'>
           Add
         </button>
       </form>
