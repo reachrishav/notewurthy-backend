@@ -1,22 +1,101 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import Button from "react-bootstrap/Button";
+import { useTable } from "react-table";
+import React from "react";
+import Container from "react-bootstrap/Container";
 
-export default function Blogs() {
-	const [blogs, setBlogs] = useState([])
+export default function Blogs({ blogs, setBlogs }) {
+  const data = React.useMemo(
+    () =>
+      blogs.map((blog, index) => {
+        return {
+          slno: index + 1,
+          title: blog.title,
+          description: blog.description,
+          actions: (
+            <>
+              <Button variant="info">Edit</Button>{" "}
+              <Button variant="danger">Remove</Button>{" "}
+            </>
+          ),
+        };
+      }),
+    [blogs]
+  );
 
-	useEffect(() => {
-		const fetchBlogs = async () => {
-			const res = await axios.get('/api/fetchBlogs')
-			setBlogs(res.data)
-		}
-		fetchBlogs()
-	}, [])
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "#",
+        accessor: "slno", // accessor is the "key" in the data
+      },
+      {
+        Header: "Title",
+        accessor: "title",
+      },
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "Actions",
+        accessor: "actions",
+      },
+    ],
+    []
+  );
 
-	return (
-		<div>
-			{blogs.map(blog => (
-				<div key={blog.title}>{blog.title}</div>
-			))}
-		</div>
-	)
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data });
+
+  return (
+    <Container fluid>
+      <table {...getTableProps()} style={{ width: "60%", margin: "auto" }}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th
+                  {...column.getHeaderProps()}
+                  style={{
+                    borderBottom: "solid 3px #676bdc",
+                    background: "#23272f",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {column.render("Header")}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td
+                      {...cell.getCellProps()}
+                      style={{
+                        padding: "10px",
+                        border: "solid 1px gray",
+                        color: "white",
+                        background: "#23272f",
+                      }}
+                    >
+                      {cell.render("Cell")}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </Container>
+  );
 }

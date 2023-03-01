@@ -1,5 +1,23 @@
-import React from 'react'
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import Button from "react-bootstrap/Button";
 
-export default function Header() {
-	return <div>Notewurthy - Admin Panel</div>
+function Header({ setIsViewBlogsVisible, isViewBlogsVisible }) {
+  return (
+    <Navbar collapseOnSelect expand="lg" variant="dark">
+      <Container fluid className="justify-content-between">
+        <Navbar.Brand href="/">Notewurthy</Navbar.Brand>
+        <Button
+          variant="primary"
+          onClick={() => {
+            setIsViewBlogsVisible(!isViewBlogsVisible);
+          }}
+        >
+          {isViewBlogsVisible? 'Add Blog': 'View Blogs'}
+        </Button>
+      </Container>
+    </Navbar>
+  );
 }
+
+export default Header;

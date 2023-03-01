@@ -1,16 +1,36 @@
-import './App.css'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import Blogs from './components/Blogs'
-import AddBlog from './components/AddBlog'
+import "./App.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Blogs from "./components/Blogs";
+import AddBlog from "./components/AddBlog";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function App() {
-	return (
-		<div className="App">
-			<Header />
-			<AddBlog />
-			<Blogs />
-			<Footer />
-		</div>
-	)
+  const [isViewBlogsVisible, setIsViewBlogsVisible] = useState(true);
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const res = await axios.get("/api/fetchBlogs");
+      setBlogs(res.data);
+    };
+    fetchBlogs();
+  }, []);
+
+  return (
+    <div className="App">
+      <Header
+        setIsViewBlogsVisible={setIsViewBlogsVisible}
+        isViewBlogsVisible={isViewBlogsVisible}
+      />
+      {isViewBlogsVisible ? (
+        <Blogs blogs={blogs} setBlogs={setBlogs} />
+      ) : (
+        <AddBlog />
+      )}
+      <Footer />
+    </div>
+  );
 }

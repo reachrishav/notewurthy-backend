@@ -1,7 +1,9 @@
 const faunadb = require('faunadb')
+require('dotenv').config()
+
 const q = faunadb.query
 const client = new faunadb.Client({
-	secret: 'fnAE9rfqPeAAVvVyKkFvQFBMYJ1e_j-jApagORKn',
+	secret: process.env.API_KEY,
 })
 
 exports.handler = async function (event, context) {
