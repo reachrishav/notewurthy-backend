@@ -145,7 +145,7 @@ export default function Blogs({
       </Container>
       <Modal show={modalShow} onHide={() => setModalShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Modal</Modal.Title>
+          <Modal.Title>Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete the blog?</Modal.Body>
         <Modal.Footer>

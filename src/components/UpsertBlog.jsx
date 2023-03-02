@@ -5,7 +5,9 @@ import Form from "react-bootstrap/Form"
 
 const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
   const [data, setData] = useState({ title: "", description: "" })
-
+  useEffect(() => {
+    if (blogRef) setData({ title: blogTitle, description: blogDescription })
+  }, [])
   async function handleAddSubmit(e) {
     e.preventDefault()
     await axios
