@@ -8,11 +8,15 @@
 	margin: 0;
 	padding: 0;
 	font-family: 'Euclid', sans-serif;
-	background-color: #131313;
+	background-color: #28292a;
 	color: aliceblue;
 }
 
+#root{
+	border-top: 3px solid #676bdc;
+}
 .App {
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	gap: 5rem;
@@ -34,4 +38,8 @@
 
 .form-item {
 	margin: 10px;
+}
+
+tbody[role="rowgroup"] > tr[role="row"] > td:last-child {
+	text-align: center;
 }
