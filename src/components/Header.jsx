@@ -1,23 +1,28 @@
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container"
+import Navbar from "react-bootstrap/Navbar"
+import Button from "react-bootstrap/Button"
 
-function Header({ setIsViewBlogsVisible, isViewBlogsVisible }) {
+function Header({
+  setIsViewBlogsVisible,
+  isViewBlogsVisible,
+  setSelectedBlogRef,
+}) {
   return (
-    <Navbar collapseOnSelect expand="lg" variant="dark">
-      <Container fluid className="justify-content-between">
-        <Navbar.Brand href="/">Notewurthy</Navbar.Brand>
+    <Navbar collapseOnSelect expand='lg' variant='dark'>
+      <Container fluid className='justify-content-between'>
+        <Navbar.Brand href='/'>Notewurthy</Navbar.Brand>
         <Button
-          variant="primary"
+          variant='primary'
           onClick={() => {
-            setIsViewBlogsVisible(!isViewBlogsVisible);
+            setIsViewBlogsVisible(!isViewBlogsVisible)
+            setSelectedBlogRef(0)
           }}
         >
-          {isViewBlogsVisible? 'Add Blog': 'View Blogs'}
+          {isViewBlogsVisible ? "Add Blog" : "View Blogs"}
         </Button>
       </Container>
     </Navbar>
-  );
+  )
 }
 
-export default Header;
+export default Header

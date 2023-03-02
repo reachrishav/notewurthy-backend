@@ -11,7 +11,9 @@ export default function App() {
   const [isViewBlogsVisible, setIsViewBlogsVisible] = useState(true);
   const [blogs, setBlogs] = useState([]);
   const [selectedBlogRef, setSelectedBlogRef] = useState(0)
-
+  const [selectedBlogDescription, setSelectedBlogDescription] = useState('')
+  const [selectedBlogTitle, setSelectedBlogTitle] = useState('')
+  
   useEffect(() => {
     const fetchBlogs = async () => {
       const res = await axios.get("/api/fetchBlogs");
@@ -25,11 +27,22 @@ export default function App() {
       <Header
         setIsViewBlogsVisible={setIsViewBlogsVisible}
         isViewBlogsVisible={isViewBlogsVisible}
+        setSelectedBlogRef={setSelectedBlogRef}
       />
       {isViewBlogsVisible ? (
-        <Blogs blogs={blogs} setBlogs={setBlogs} setSelectedBlogRef={setSelectedBlogRef} setIsViewBlogsVisible={setIsViewBlogsVisible} />
+        <Blogs blogs={blogs} 
+          setBlogs={setBlogs} 
+          setSelectedBlogRef={setSelectedBlogRef} 
+          setSelectedBlogTitle={setSelectedBlogTitle} 
+          setSelectedBlogDescription={setSelectedBlogDescription} 
+          setIsViewBlogsVisible={setIsViewBlogsVisible} 
+        />
       ) : (
-        <AddBlog blogRef={selectedBlogRef}/>
+        <AddBlog 
+          blogRef={selectedBlogRef} 
+          blogTitle={selectedBlogTitle} 
+          blogDescription={selectedBlogDescription}
+        />
       )}
       <Footer />
     </div>

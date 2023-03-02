@@ -6,7 +6,7 @@ const client = new faunadb.Client({
 	secret: process.env.API_KEY,
 })
 
-exports.handler = async function (event, context) {
+exports.handler = async function (event) {
 	let newBlog = JSON.parse(event.body)
 	const createdPost = await client.query(
 		q.Create(q.Collection('blogs'), {

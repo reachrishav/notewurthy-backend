@@ -8,6 +8,8 @@ import axios from "axios"
 export default function Blogs({
   blogs,
   setSelectedBlogRef,
+  setSelectedBlogTitle,
+  setSelectedBlogDescription,
   setIsViewBlogsVisible,
 }) {
   const [modalShow, setModalShow] = useState(false)
@@ -37,6 +39,8 @@ export default function Blogs({
               <Button
                 onClick={event => {
                   setSelectedBlogRef(blog.id)
+                  setSelectedBlogTitle(blog.title)
+                  setSelectedBlogDescription(blog.description)
                   setIsViewBlogsVisible(false)
                 }}
                 variant='info'
