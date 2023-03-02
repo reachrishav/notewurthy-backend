@@ -35,10 +35,10 @@ export default function Blogs({ blogs, setBlogs }) {
             <>
               <Button onClick={(event) => handleEdit(event)} variant="info">
                 Edit
-              </Button>{" "}
+              </Button> &nbsp; &nbsp;
               <Button onClick={(event) => handleDelete(event)} variant="danger">
                 Remove
-              </Button>{" "}
+              </Button>
             </>
           ),
         };
@@ -85,6 +85,9 @@ export default function Blogs({ blogs, setBlogs }) {
                     background: "#23272f",
                     color: "white",
                     fontWeight: "bold",
+                    padding: '8px',
+                    textAlign: 'center',
+                    border: "solid 1px gray",
                   }}
                 >
                   {column.render("Header")}

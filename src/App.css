@@ -39,3 +39,7 @@
 .form-item {
 	margin: 10px;
 }
+
+tbody[role="rowgroup"] > tr[role="row"] > td:last-child {
+	text-align: center;
+}
