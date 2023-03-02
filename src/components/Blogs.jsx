@@ -101,7 +101,7 @@ export default function Blogs({
                     {...column.getHeaderProps()}
                     style={{
                       borderBottom: "solid 3px #676bdc",
-                      background: "#23272f",
+                      background: "#1f2937",
                       color: "white",
                       fontWeight: "bold",
                       padding: "8px",
@@ -130,7 +130,7 @@ export default function Blogs({
                           padding: "10px",
                           border: "solid 1px gray",
                           color: "white",
-                          background: "#23272f",
+                          background: "#374151",
                         }}
                       >
                         {cell.render("Cell")}
