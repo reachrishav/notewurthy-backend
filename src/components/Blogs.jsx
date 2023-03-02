@@ -2,8 +2,28 @@ import Button from "react-bootstrap/Button";
 import { useTable } from "react-table";
 import React from "react";
 import Container from "react-bootstrap/Container";
+import axios from "axios";
 
 export default function Blogs({ blogs, setBlogs }) {
+  const handleEdit = (event) => {
+    // !Idea Required.
+  };
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+
+    const titleOfBlogToRemove =
+      event.target.parentElement.parentElement.children[1].innerText;
+
+    await axios
+      .post("/api/removeBlog", { title: titleOfBlogToRemove })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((event) => console.log(event));
+    window.location.reload();
+  };
+
   const data = React.useMemo(
     () =>
       blogs.map((blog, index) => {
@@ -13,8 +33,12 @@ export default function Blogs({ blogs, setBlogs }) {
           description: blog.description,
           actions: (
             <>
-              <Button variant="info">Edit</Button>{" "}
-              <Button variant="danger">Remove</Button>{" "}
+              <Button onClick={(event) => handleEdit(event)} variant="info">
+                Edit
+              </Button>{" "}
+              <Button onClick={(event) => handleDelete(event)} variant="danger">
+                Remove
+              </Button>{" "}
             </>
           ),
         };
