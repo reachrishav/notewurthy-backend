@@ -1,22 +1,17 @@
 import Button from "react-bootstrap/Button"
 import { useTable } from "react-table"
-import React from "react"
+import { useMemo, useState } from "react"
 import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import axios from "axios"
 
 export default function Blogs({
   blogs,
-  setBlogs,
   setSelectedBlogRef,
   setIsViewBlogsVisible,
 }) {
-  const [modalShow, setModalShow] = React.useState(false)
-  const [selectedId, setSelectedId] = React.useState(0)
-
-  const handleEdit = event => {
-    // !Idea Required.
-  }
+  const [modalShow, setModalShow] = useState(false)
+  const [selectedId, setSelectedId] = useState(0)
   const handleModalShow = () => setModalShow(true)
 
   const handleDelete = async event => {
@@ -30,7 +25,7 @@ export default function Blogs({
     window.location.reload()
   }
 
-  const data = React.useMemo(
+  const data = useMemo(
     () =>
       blogs.map((blog, index) => {
         return {
@@ -53,7 +48,6 @@ export default function Blogs({
                 onClick={() => {
                   setSelectedId(blog.id)
                   handleModalShow()
-                  console.log(selectedId)
                 }}
                 variant='danger'
               >
@@ -63,10 +57,10 @@ export default function Blogs({
           ),
         }
       }),
-    [blogs]
+    [blogs, setIsViewBlogsVisible, setSelectedBlogRef]
   )
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => [
       {
         Header: "#",

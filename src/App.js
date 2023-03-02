@@ -3,9 +3,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Blogs from "./components/Blogs";
 import AddBlog from "./components/AddBlog";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function App() {
   const [isViewBlogsVisible, setIsViewBlogsVisible] = useState(true);
