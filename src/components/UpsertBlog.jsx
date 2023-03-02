@@ -10,13 +10,13 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
     if (blogRef) setData({ title: blogTitle, description: blogDescription })
   }, [])
   async function handleAddSubmit(e) {
-    const form = e.currentTarget
-    if (form.checkValidity() === false) {
-      e.preventDefault()
-      e.stopPropagation()
-    }
-    setValidated(true)
-    if (!validated) return
+    // e.preventDefault()
+    // const form = e.currentTarget
+    // if (form.checkValidity() === false) {
+    //   e.stopPropagation()
+    // }
+    // setValidated(true)
+    // if (!validated) return
 
     e.preventDefault()
     await axios
@@ -32,13 +32,13 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
   }
 
   async function handleEditSubmit(e) {
-    const form = e.currentTarget
-    if (form.checkValidity() === false) {
-      e.preventDefault()
-      e.stopPropagation()
-    }
-    setValidated(true)
-    if (!validated) return
+    // e.preventDefault()
+    // const form = e.currentTarget
+    // if (form.checkValidity() === false) {
+    //   e.stopPropagation()
+    // }
+    // setValidated(true)
+    // if (!validated) return
 
     e.preventDefault()
     await axios
@@ -62,8 +62,8 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
 
   return (
     <Form
-      noValidate
-      validated={validated}
+      // noValidate
+      // validated={validated}
       onSubmit={e => (blogRef ? handleEditSubmit(e) : handleAddSubmit(e))}
     >
       <Form.Group className='mb-3 mx-5' controlId='title'>

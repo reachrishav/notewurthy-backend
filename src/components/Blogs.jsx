@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import axios from "axios"
+import Spinner from "../assets/spin.svg"
 
 export default function Blogs({
   blogs,
@@ -11,6 +12,7 @@ export default function Blogs({
   setSelectedBlogTitle,
   setSelectedBlogDescription,
   setIsViewBlogsVisible,
+  loading,
 }) {
   const [modalShow, setModalShow] = useState(false)
   const [selectedId, setSelectedId] = useState(0)
@@ -91,64 +93,68 @@ export default function Blogs({
 
   return (
     <>
-      <Container fluid>
-        <table {...getTableProps()} style={{ width: "60%", margin: "auto" }}>
-          <thead>
-            {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th
-                    {...column.getHeaderProps()}
-                    style={{
-                      borderBottom: "solid 3px #676bdc",
-                      background: "#1f2937",
-                      color: "white",
-                      fontWeight: "bold",
-                      padding: "8px",
-                      textAlign: "center",
-                      border: "solid 1px gray",
-                    }}
-                  >
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-
-          <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row)
-
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                        style={{
-                          padding: "10px",
-                          border: "solid 1px gray",
-                          color: "white",
-                          background: "#374151",
-                        }}
-                      >
-                        {cell.render("Cell")}
-                      </td>
-                    )
-                  })}
+      {loading ? (
+        <Container fluid>
+          <table {...getTableProps()} style={{ width: "60%", margin: "auto" }}>
+            <thead>
+              {headerGroups.map(headerGroup => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map(column => (
+                    <th
+                      {...column.getHeaderProps()}
+                      style={{
+                        borderBottom: "solid 3px #676bdc",
+                        background: "#1f2937",
+                        color: "white",
+                        fontWeight: "bold",
+                        padding: "8px",
+                        textAlign: "center",
+                        border: "solid 1px gray",
+                      }}
+                    >
+                      {column.render("Header")}
+                    </th>
+                  ))}
                 </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </Container>
+              ))}
+            </thead>
+
+            <tbody {...getTableBodyProps()}>
+              {rows.map(row => {
+                prepareRow(row)
+
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map(cell => {
+                      return (
+                        <td
+                          {...cell.getCellProps()}
+                          style={{
+                            padding: "10px",
+                            border: "solid 1px gray",
+                            color: "white",
+                            background: "#374151",
+                          }}
+                        >
+                          {cell.render("Cell")}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </Container>
+      ) : (
+        <img src={Spinner} alt='' className='spinner-animation' />
+      )}
       <Modal show={modalShow} onHide={() => setModalShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete the blog?</Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer style={{ backgroundColor: "#374151" }}>
           <Button variant='secondary' onClick={() => setModalShow(false)}>
             Close
           </Button>

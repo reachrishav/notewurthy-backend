@@ -13,11 +13,13 @@ export default function App() {
   const [selectedBlogRef, setSelectedBlogRef] = useState(0)
   const [selectedBlogDescription, setSelectedBlogDescription] = useState('')
   const [selectedBlogTitle, setSelectedBlogTitle] = useState('')
+  const [loading, setLoading] = useState(false)
   
   useEffect(() => {
     const fetchBlogs = async () => {
       const res = await axios.get("/api/fetchBlogs");
       setBlogs(res.data);
+      setLoading(true)
     };
     fetchBlogs();
   }, []);
@@ -36,6 +38,7 @@ export default function App() {
           setSelectedBlogTitle={setSelectedBlogTitle} 
           setSelectedBlogDescription={setSelectedBlogDescription} 
           setIsViewBlogsVisible={setIsViewBlogsVisible} 
+          loading={loading}
         />
       ) : (
         <UpsertBlog 
