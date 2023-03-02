@@ -9,14 +9,11 @@ export default function Blogs({ blogs, setBlogs }) {
     // !Idea Required.
   };
 
-  const handleDelete = async (event) => {
+  const handleDelete = async (event, id) => {
     event.preventDefault();
 
-    const titleOfBlogToRemove =
-      event.target.parentElement.parentElement.children[1].innerText;
-
     await axios
-      .post("/api/removeBlog", { title: titleOfBlogToRemove })
+      .post("/api/removeBlog", { id: id })
       .then((res) => {
         console.log(res.data);
       })
@@ -33,10 +30,17 @@ export default function Blogs({ blogs, setBlogs }) {
           description: blog.description,
           actions: (
             <>
-              <Button onClick={(event) => handleEdit(event)} variant="info">
+              <Button
+                onClick={(event) => handleEdit(event, blog.id)}
+                variant="info"
+              >
                 Edit
-              </Button> &nbsp; &nbsp;
-              <Button onClick={(event) => handleDelete(event)} variant="danger">
+              </Button>{" "}
+              &nbsp; &nbsp;
+              <Button
+                onClick={(event) => handleDelete(event, blog.id)}
+                variant="danger"
+              >
                 Remove
               </Button>
             </>
@@ -85,8 +89,8 @@ export default function Blogs({ blogs, setBlogs }) {
                     background: "#23272f",
                     color: "white",
                     fontWeight: "bold",
-                    padding: '8px',
-                    textAlign: 'center',
+                    padding: "8px",
+                    textAlign: "center",
                     border: "solid 1px gray",
                   }}
                 >
