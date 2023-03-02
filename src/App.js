@@ -10,6 +10,7 @@ import axios from "axios";
 export default function App() {
   const [isViewBlogsVisible, setIsViewBlogsVisible] = useState(true);
   const [blogs, setBlogs] = useState([]);
+  const [selectedBlogRef, setSelectedBlogRef] = useState(0)
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -26,9 +27,9 @@ export default function App() {
         isViewBlogsVisible={isViewBlogsVisible}
       />
       {isViewBlogsVisible ? (
-        <Blogs blogs={blogs} setBlogs={setBlogs} />
+        <Blogs blogs={blogs} setBlogs={setBlogs} setSelectedBlogRef={setSelectedBlogRef} setIsViewBlogsVisible={setIsViewBlogsVisible} />
       ) : (
-        <AddBlog />
+        <AddBlog blogRef={selectedBlogRef}/>
       )}
       <Footer />
     </div>

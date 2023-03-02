@@ -1,25 +1,34 @@
-import Button from "react-bootstrap/Button";
-import { useTable } from "react-table";
-import React from "react";
-import Container from "react-bootstrap/Container";
-import axios from "axios";
+import Button from "react-bootstrap/Button"
+import { useTable } from "react-table"
+import React from "react"
+import Container from "react-bootstrap/Container"
+import Modal from "react-bootstrap/Modal"
+import axios from "axios"
 
-export default function Blogs({ blogs, setBlogs }) {
-  const handleEdit = (event) => {
+export default function Blogs({
+  blogs,
+  setBlogs,
+  setSelectedBlogRef,
+  setIsViewBlogsVisible,
+}) {
+  const [modalShow, setModalShow] = React.useState(false)
+  const [selectedId, setSelectedId] = React.useState(0)
+
+  const handleEdit = event => {
     // !Idea Required.
-  };
+  }
+  const handleModalShow = () => setModalShow(true)
 
-  const handleDelete = async (event, id) => {
-    event.preventDefault();
-
+  const handleDelete = async event => {
+    event.preventDefault()
     await axios
-      .post("/api/removeBlog", { id: id })
-      .then((res) => {
-        console.log(res.data);
+      .post("/api/removeBlog", { id: selectedId })
+      .then(res => {
+        console.log(res.data)
       })
-      .catch((event) => console.log(event));
-    window.location.reload();
-  };
+      .catch(event => console.log(event))
+    window.location.reload()
+  }
 
   const data = React.useMemo(
     () =>
@@ -31,24 +40,31 @@ export default function Blogs({ blogs, setBlogs }) {
           actions: (
             <>
               <Button
-                onClick={(event) => handleEdit(event, blog.id)}
-                variant="info"
+                onClick={event => {
+                  setSelectedBlogRef(blog.id)
+                  setIsViewBlogsVisible(false)
+                }}
+                variant='info'
               >
                 Edit
               </Button>{" "}
               &nbsp; &nbsp;
               <Button
-                onClick={(event) => handleDelete(event, blog.id)}
-                variant="danger"
+                onClick={() => {
+                  setSelectedId(blog.id)
+                  handleModalShow()
+                  console.log(selectedId)
+                }}
+                variant='danger'
               >
                 Remove
               </Button>
             </>
           ),
-        };
+        }
       }),
     [blogs]
-  );
+  )
 
   const columns = React.useMemo(
     () => [
@@ -70,63 +86,79 @@ export default function Blogs({ blogs, setBlogs }) {
       },
     ],
     []
-  );
+  )
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns, data })
 
   return (
-    <Container fluid>
-      <table {...getTableProps()} style={{ width: "60%", margin: "auto" }}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps()}
-                  style={{
-                    borderBottom: "solid 3px #676bdc",
-                    background: "#23272f",
-                    color: "white",
-                    fontWeight: "bold",
-                    padding: "8px",
-                    textAlign: "center",
-                    border: "solid 1px gray",
-                  }}
-                >
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      style={{
-                        padding: "10px",
-                        border: "solid 1px gray",
-                        color: "white",
-                        background: "#23272f",
-                      }}
-                    >
-                      {cell.render("Cell")}
-                    </td>
-                  );
-                })}
+    <>
+      <Container fluid>
+        <table {...getTableProps()} style={{ width: "60%", margin: "auto" }}>
+          <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <th
+                    {...column.getHeaderProps()}
+                    style={{
+                      borderBottom: "solid 3px #676bdc",
+                      background: "#23272f",
+                      color: "white",
+                      fontWeight: "bold",
+                      padding: "8px",
+                      textAlign: "center",
+                      border: "solid 1px gray",
+                    }}
+                  >
+                    {column.render("Header")}
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </Container>
-  );
+            ))}
+          </thead>
+
+          <tbody {...getTableBodyProps()}>
+            {rows.map(row => {
+              prepareRow(row)
+
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    return (
+                      <td
+                        {...cell.getCellProps()}
+                        style={{
+                          padding: "10px",
+                          border: "solid 1px gray",
+                          color: "white",
+                          background: "#23272f",
+                        }}
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </Container>
+      <Modal show={modalShow} onHide={() => setModalShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Modal</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete the blog?</Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={() => setModalShow(false)}>
+            Close
+          </Button>
+          <Button variant='danger' onClick={event => handleDelete(event)}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  )
 }
