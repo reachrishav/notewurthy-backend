@@ -5,10 +5,19 @@ import Form from "react-bootstrap/Form"
 
 const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
   const [data, setData] = useState({ title: "", description: "" })
+  const [validated, setValidated] = useState(false)
   useEffect(() => {
     if (blogRef) setData({ title: blogTitle, description: blogDescription })
   }, [])
   async function handleAddSubmit(e) {
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    setValidated(true)
+    if (!validated) return
+
     e.preventDefault()
     await axios
       .post("/api/addBlog", {
@@ -23,6 +32,14 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
   }
 
   async function handleEditSubmit(e) {
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    setValidated(true)
+    if (!validated) return
+
     e.preventDefault()
     await axios
       .post("/api/editBlog", {
@@ -44,7 +61,11 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
   }
 
   return (
-    <Form onSubmit={e => (blogRef ? handleEditSubmit(e) : handleAddSubmit(e))}>
+    <Form
+      noValidate
+      validated={validated}
+      onSubmit={e => (blogRef ? handleEditSubmit(e) : handleAddSubmit(e))}
+    >
       <Form.Group className='mb-3 mx-5' controlId='title'>
         <Form.Label>Title</Form.Label>
         <Form.Control
@@ -52,7 +73,11 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
           style={{ backgroundColor: "#3f4655", color: "white" }}
           onChange={e => handleChange(e)}
           defaultValue={blogRef ? blogTitle : ""}
+          required
         />
+        <Form.Control.Feedback type='invalid'>
+          Please provide a title.
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className='mb-3 mx-5' controlId='description'>
         <Form.Label>Description</Form.Label>
@@ -63,7 +88,11 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
           cols={10}
           defaultValue={blogRef ? blogDescription : ""}
           onChange={e => handleChange(e)}
+          required
         />
+        <Form.Control.Feedback type='invalid'>
+          Please provide a description.
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Button variant='primary' type='submit' className='mx-5'>
