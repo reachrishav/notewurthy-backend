@@ -10,7 +10,12 @@ function Header({
   return (
     <Navbar collapseOnSelect expand='lg' variant='dark'>
       <Container fluid className='justify-content-between'>
-        <Navbar.Brand href='/'>Notewurthy</Navbar.Brand>
+        <Navbar.Brand href='/'>
+          <h2>
+            <span className='mleft-10 cursive'>note</span>
+            <span className='blue ml-2 cursive'>wurthy </span>
+          </h2>
+        </Navbar.Brand>
         <Button
           variant='primary'
           onClick={() => {

@@ -47,7 +47,6 @@ export default function Blogs({
                   setIsViewBlogsVisible(false)
                 }}
                 variant='info'
-                className='edit-btn'
               >
                 Edit
               </Button>

@@ -59,3 +59,21 @@ tbody[role="rowgroup"] > tr[role="row"] > td:last-child {
 	color: white !important;
 	background-color: #45adff !important;
 }
+.cursive {
+	font-family: 'Dancing Script', cursive;
+	font-size: 1.2em;
+}
+.blue {
+	color: #42b6f3;
+}
+.mleft-10 {
+	margin-left: 10px !important;
+}
+
+a:link {
+	text-decoration: none;
+}
+
+footer {
+	text-align: center;
+}
