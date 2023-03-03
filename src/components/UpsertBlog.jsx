@@ -70,7 +70,7 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
         <Form.Label>Title</Form.Label>
         <Form.Control
           type='text'
-          style={{ backgroundColor: "#374151", color: "white" }}
+          style={{ backgroundColor: "#2e2e2e", color: "white" }}
           onChange={e => handleChange(e)}
           defaultValue={blogRef ? blogTitle : ""}
           required
@@ -82,7 +82,7 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
       <Form.Group className='mb-3 mx-5' controlId='description'>
         <Form.Label>Description</Form.Label>
         <Form.Control
-          style={{ backgroundColor: "#3f4655", color: "white" }}
+          style={{ backgroundColor: "#2e2e2e", color: "white" }}
           as='textarea'
           rows={10}
           cols={10}

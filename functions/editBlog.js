@@ -14,7 +14,8 @@ exports.handler = async function (event, context) {
     await client.query(q.Update(q.Ref(q.Collection(collection), idToEdit),{
         data: {
             title: blogUpdateRequest.title,
-            description: blogUpdateRequest.description
+            description: blogUpdateRequest.description,
+            updated_at: Date.now() * 1000
         }
     }));
 	return {

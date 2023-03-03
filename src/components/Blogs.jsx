@@ -4,7 +4,7 @@ import { useMemo, useState } from "react"
 import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import axios from "axios"
-import Spinner from "../assets/rolling-spinner.svg"
+import Spinner from "../assets/rolling-transparent.svg"
 
 export default function Blogs({
   blogs,
@@ -105,7 +105,7 @@ export default function Blogs({
                       {...column.getHeaderProps()}
                       style={{
                         borderBottom: "solid 3px #676bdc",
-                        background: "#1f2937",
+                        background: "#111111",
                         color: "white",
                         fontWeight: "bold",
                         padding: "8px",
@@ -134,7 +134,7 @@ export default function Blogs({
                             padding: "10px",
                             border: "solid 1px gray",
                             color: "white",
-                            background: "#374151",
+                            background: "#413e39",
                           }}
                         >
                           {cell.render("Cell")}
