@@ -96,7 +96,14 @@ export default function Blogs({
     <>
       {loading ? (
         <Container fluid>
-          <table {...getTableProps()} style={{ width: "80%", margin: "auto" }}>
+          <table
+            {...getTableProps()}
+            style={{
+              width: "80%",
+              margin: "auto",
+              borderCollapse: "separate",
+            }}
+          >
             <thead>
               {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
@@ -105,7 +112,7 @@ export default function Blogs({
                       {...column.getHeaderProps()}
                       style={{
                         borderBottom: "solid 3px #676bdc",
-                        background: "#111111",
+                        background: "#212124",
                         color: "white",
                         fontWeight: "bold",
                         padding: "8px",
