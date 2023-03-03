@@ -35,8 +35,9 @@ export default function Blogs({
         return {
           slno: index + 1,
           title: blog.title,
-          description:
-            blog.description.split(" ").slice(0, 25).join(" ") + "...",
+          description: `${blog.description.split(" ").slice(0, 25).join(" ")}${
+            blog.description.split(" ").length > 25 ? "..." : ""
+          }`,
           actions: (
             <div className='action-buttons'>
               <Button
