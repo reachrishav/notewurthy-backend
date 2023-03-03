@@ -32,7 +32,7 @@ export default function App() {
         setSelectedBlogRef={setSelectedBlogRef}
       />
       {isViewBlogsVisible ? (
-        <Blogs blogs={blogs} 
+        <Blogs blogs={blogs.sort((a,b) => b.created_at - a.created_at)} 
           setBlogs={setBlogs} 
           setSelectedBlogRef={setSelectedBlogRef} 
           setSelectedBlogTitle={setSelectedBlogTitle} 
