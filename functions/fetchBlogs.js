@@ -15,7 +15,10 @@ exports.handler = async function () {
   );
 
   let dataArr = res.data.map((item) => {
-    return { ...item.data, id: item.ref.id, created_at: item.ts, updated_at: item.ts };
+    return { ...item.data, id: item.ref.id, created_at: item.data.created_at ? item.data.created_at : item.ts, 
+      // updated_at: item.ts 
+      updated_at: item.data.updated_at ? item.data.updated_at : item.ts
+    };
   });
 
   return {
