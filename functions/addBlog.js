@@ -10,7 +10,11 @@ exports.handler = async function (event) {
 	let newBlog = JSON.parse(event.body)
 	const createdPost = await client.query(
 		q.Create(q.Collection('blogs'), {
-			data: { title: newBlog.title, description: newBlog.description },
+			data: { title: newBlog.title, 
+				description: newBlog.description, 
+				updated_at: Date.now() * 1000, 
+				created_at: Date.now() * 1000 
+			},
 		})
 	)
 
