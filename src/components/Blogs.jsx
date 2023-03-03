@@ -4,7 +4,7 @@ import { useMemo, useState } from "react"
 import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import axios from "axios"
-import Spinner from "../assets/spin.svg"
+import Spinner from "../assets/rolling-spinner.svg"
 
 export default function Blogs({
   blogs,
@@ -35,9 +35,10 @@ export default function Blogs({
         return {
           slno: index + 1,
           title: blog.title,
-          description: blog.description,
+          description:
+            blog.description.split(" ").slice(0, 25).join(" ") + "...",
           actions: (
-            <>
+            <div className='action-buttons'>
               <Button
                 onClick={event => {
                   setSelectedBlogRef(blog.id)
@@ -46,10 +47,10 @@ export default function Blogs({
                   setIsViewBlogsVisible(false)
                 }}
                 variant='info'
+                className='edit-btn'
               >
                 Edit
-              </Button>{" "}
-              &nbsp; &nbsp;
+              </Button>
               <Button
                 onClick={() => {
                   setSelectedId(blog.id)
@@ -59,7 +60,7 @@ export default function Blogs({
               >
                 Remove
               </Button>
-            </>
+            </div>
           ),
         }
       }),
@@ -95,7 +96,7 @@ export default function Blogs({
     <>
       {loading ? (
         <Container fluid>
-          <table {...getTableProps()} style={{ width: "60%", margin: "auto" }}>
+          <table {...getTableProps()} style={{ width: "80%", margin: "auto" }}>
             <thead>
               {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
