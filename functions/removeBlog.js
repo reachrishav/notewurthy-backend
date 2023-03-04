@@ -9,9 +9,14 @@ const client = new faunadb.Client({
 exports.handler = async function (event) {
   const headers = event.headers
   if (headers["access-token"] !== process.env.POST_TOKEN) {
-    return {
-      statusCode: 401,
-      body: JSON.stringify({ error: "Unauthorized" }),
+    if (
+      headers["access-token"] !== undefined ||
+      process.env.POST_TOKEN !== undefined
+    ) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ error: "Unauthorized" }),
+      }
     }
   }
   let blogRemovalRequest = JSON.parse(event.body)
