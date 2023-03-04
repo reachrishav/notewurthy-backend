@@ -2,7 +2,6 @@ import Blogs from "./Blogs"
 import UpsertBlog from "./UpsertBlog"
 import { useState, useEffect } from "react"
 import axios from "axios"
-import Button from "react-bootstrap/Button"
 
 const Content = () => {
   const [blogs, setBlogs] = useState([])
@@ -41,6 +40,9 @@ const Content = () => {
           blogRef={selectedBlogRef}
           blogTitle={selectedBlogTitle}
           blogDescription={selectedBlogDescription}
+          setIsViewBlogsVisible={setIsViewBlogsVisible}
+          isViewBlogsVisible={isViewBlogsVisible}
+          setSelectedBlogRef={setSelectedBlogRef}
         />
       )}
     </>

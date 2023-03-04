@@ -12,15 +12,7 @@ export default function App() {
 
   return (
     <div className='App'>
-      <Header
-      // setIsViewBlogsVisible={setIsViewBlogsVisible}
-      // isViewBlogsVisible={isViewBlogsVisible}
-      // setSelectedBlogRef={setSelectedBlogRef}
-      />
-      {/* <Routes>
-          <Route exact path='/home' component={<Content />} />
-          <Route path='*' component={() => "Not found"} />
-        </Routes> */}
+      <Header />
       <Routes>
         <Route
           path='/'
@@ -32,7 +24,6 @@ export default function App() {
           path='/login'
           element={<Login setIsAuthenticated={setIsAuthenticated} />}
         />
-        {/* <Route path='*' element={<>Rishav</>} /> */}
       </Routes>
       <Footer />
     </div>

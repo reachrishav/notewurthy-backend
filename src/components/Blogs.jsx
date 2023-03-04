@@ -72,7 +72,7 @@ export default function Blogs({
     () => [
       {
         Header: "#",
-        accessor: "slno", // accessor is the "key" in the data
+        accessor: "slno",
       },
       {
         Header: "Title",

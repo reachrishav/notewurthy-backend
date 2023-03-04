@@ -3,21 +3,19 @@ import axios from "axios"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 
-const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
+const AddBlog = ({
+  blogRef,
+  blogTitle,
+  blogDescription,
+  setIsViewBlogsVisible,
+  isViewBlogsVisible,
+  setSelectedBlogRef,
+}) => {
   const [data, setData] = useState({ title: "", description: "" })
-  const [validated, setValidated] = useState(false)
   useEffect(() => {
     if (blogRef) setData({ title: blogTitle, description: blogDescription })
   }, [])
   async function handleAddSubmit(e) {
-    // e.preventDefault()
-    // const form = e.currentTarget
-    // if (form.checkValidity() === false) {
-    //   e.stopPropagation()
-    // }
-    // setValidated(true)
-    // if (!validated) return
-
     e.preventDefault()
     await axios
       .post("/api/addBlog", {
@@ -32,14 +30,6 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
   }
 
   async function handleEditSubmit(e) {
-    // e.preventDefault()
-    // const form = e.currentTarget
-    // if (form.checkValidity() === false) {
-    //   e.stopPropagation()
-    // }
-    // setValidated(true)
-    // if (!validated) return
-
     e.preventDefault()
     await axios
       .post("/api/editBlog", {
@@ -61,44 +51,58 @@ const AddBlog = ({ blogRef, blogTitle, blogDescription }) => {
   }
 
   return (
-    <Form
-      // noValidate
-      // validated={validated}
-      onSubmit={e => (blogRef ? handleEditSubmit(e) : handleAddSubmit(e))}
-    >
-      <Form.Group className='mb-3 mx-5' controlId='title'>
-        <Form.Label>Title</Form.Label>
-        <Form.Control
-          type='text'
-          style={{ backgroundColor: "#2e2e2e", color: "white" }}
-          onChange={e => handleChange(e)}
-          defaultValue={blogRef ? blogTitle : ""}
-          required
-        />
-        <Form.Control.Feedback type='invalid'>
-          Please provide a title.
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Form.Group className='mb-3 mx-5' controlId='description'>
-        <Form.Label>Description</Form.Label>
-        <Form.Control
-          style={{ backgroundColor: "#2e2e2e", color: "white" }}
-          as='textarea'
-          rows={10}
-          cols={10}
-          defaultValue={blogRef ? blogDescription : ""}
-          onChange={e => handleChange(e)}
-          required
-        />
-        <Form.Control.Feedback type='invalid'>
-          Please provide a description.
-        </Form.Control.Feedback>
-      </Form.Group>
-
-      <Button variant='primary' type='submit' className='mx-5'>
-        {blogRef ? "Update" : "Add"}
+    <>
+      <Button
+        className='back-home-btn'
+        variant='primary'
+        onClick={() => {
+          setIsViewBlogsVisible(!isViewBlogsVisible)
+          setSelectedBlogRef(0)
+        }}
+      >
+        <i
+          class='fa-solid fa-arrow-left'
+          style={{ backgroundColor: "#676bdc", marginRight: "4px" }}
+        ></i>
+        Back to Home
       </Button>
-    </Form>
+      <Form
+        onSubmit={e => (blogRef ? handleEditSubmit(e) : handleAddSubmit(e))}
+      >
+        <Form.Group className='mb-3 mx-5' controlId='title'>
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type='text'
+            style={{ backgroundColor: "#2e2e2e", color: "white" }}
+            onChange={e => handleChange(e)}
+            defaultValue={blogRef ? blogTitle : ""}
+            required
+          />
+          <Form.Control.Feedback type='invalid'>
+            Please provide a title.
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className='mb-3 mx-5' controlId='description'>
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            style={{ backgroundColor: "#2e2e2e", color: "white" }}
+            as='textarea'
+            rows={10}
+            cols={10}
+            defaultValue={blogRef ? blogDescription : ""}
+            onChange={e => handleChange(e)}
+            required
+          />
+          <Form.Control.Feedback type='invalid'>
+            Please provide a description.
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Button variant='primary' type='submit' className='mx-5'>
+          {blogRef ? "Update" : "Add"}
+        </Button>
+      </Form>
+    </>
   )
 }
 
