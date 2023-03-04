@@ -49,7 +49,7 @@ const Login = ({ setIsAuthenticated }) => {
         <Form.Group className='mb-3 mx-5' controlId='password'>
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type='text'
+            type='password'
             style={{
               backgroundColor: "#2e2e2e",
               color: "white",
