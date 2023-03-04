@@ -1,53 +1,40 @@
-import "./App.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Blogs from "./components/Blogs";
-import UpsertBlog from "./components/UpsertBlog";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
-
+import "./App.css"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import "bootstrap/dist/css/bootstrap.min.css"
+import { Routes, Route } from "react-router-dom"
+import Content from "./components/Content"
+import Login from "./components/Login"
+import Protected from "./components/Protected"
+import { useState } from "react"
 export default function App() {
-  const [isViewBlogsVisible, setIsViewBlogsVisible] = useState(true);
-  const [blogs, setBlogs] = useState([]);
-  const [selectedBlogRef, setSelectedBlogRef] = useState(0)
-  const [selectedBlogDescription, setSelectedBlogDescription] = useState('')
-  const [selectedBlogTitle, setSelectedBlogTitle] = useState('')
-  const [loading, setLoading] = useState(false)
-  
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      const res = await axios.get("/api/fetchBlogs");
-      setBlogs(res.data);
-      setLoading(true)
-    };
-    fetchBlogs();
-  }, []);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   return (
-    <div className="App">
+    <div className='App'>
       <Header
-        setIsViewBlogsVisible={setIsViewBlogsVisible}
-        isViewBlogsVisible={isViewBlogsVisible}
-        setSelectedBlogRef={setSelectedBlogRef}
+      // setIsViewBlogsVisible={setIsViewBlogsVisible}
+      // isViewBlogsVisible={isViewBlogsVisible}
+      // setSelectedBlogRef={setSelectedBlogRef}
       />
-      {isViewBlogsVisible ? (
-        <Blogs blogs={blogs.sort((a,b) => b.created_at - a.created_at)} 
-          setBlogs={setBlogs} 
-          setSelectedBlogRef={setSelectedBlogRef} 
-          setSelectedBlogTitle={setSelectedBlogTitle} 
-          setSelectedBlogDescription={setSelectedBlogDescription} 
-          setIsViewBlogsVisible={setIsViewBlogsVisible} 
-          loading={loading}
+      {/* <Routes>
+          <Route exact path='/home' component={<Content />} />
+          <Route path='*' component={() => "Not found"} />
+        </Routes> */}
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <Protected Component={Content} isAuthenticated={isAuthenticated} />
+          }
         />
-      ) : (
-        <UpsertBlog 
-          blogRef={selectedBlogRef} 
-          blogTitle={selectedBlogTitle} 
-          blogDescription={selectedBlogDescription}
+        <Route
+          path='/login'
+          element={<Login setIsAuthenticated={setIsAuthenticated} />}
         />
-      )}
+        {/* <Route path='*' element={<>Rishav</>} /> */}
+      </Routes>
       <Footer />
     </div>
-  );
+  )
 }

@@ -80,3 +80,10 @@ a:link {
 footer {
 	text-align: center;
 }
+
+.add-btn {
+	display: block !important;
+	margin: auto !important;
+	margin-bottom: 30px !important;
+	margin-top: -80px !important;
+}
