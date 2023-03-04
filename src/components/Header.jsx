@@ -2,11 +2,12 @@ import Container from "react-bootstrap/Container"
 import Navbar from "react-bootstrap/Navbar"
 import Button from "react-bootstrap/Button"
 
-function Header({
-  setIsViewBlogsVisible,
-  isViewBlogsVisible,
-  setSelectedBlogRef,
-}) {
+function Header() {
+//   {
+//   setIsViewBlogsVisible,
+//   isViewBlogsVisible,
+//   setSelectedBlogRef,
+// }
   return (
     <Navbar collapseOnSelect expand='lg' variant='dark'>
       <Container fluid className='justify-content-between'>
@@ -16,7 +17,7 @@ function Header({
             <span className='blue ml-2 cursive'>wurthy </span>
           </h2>
         </Navbar.Brand>
-        <Button
+        {/* <Button
           variant='primary'
           onClick={() => {
             setIsViewBlogsVisible(!isViewBlogsVisible)
@@ -24,7 +25,7 @@ function Header({
           }}
         >
           {isViewBlogsVisible ? "Add Blog" : "View Blogs"}
-        </Button>
+        </Button> */}
       </Container>
     </Navbar>
   )
