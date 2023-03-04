@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 const Login = ({ setIsAuthenticated }) => {
@@ -23,6 +23,7 @@ const Login = ({ setIsAuthenticated }) => {
   }
   function handleChange(e) {
     const newData = { ...data }
+    setShowError(false)
     newData[e.target.id] = e.target.value
     setData(newData)
   }
@@ -64,8 +65,11 @@ const Login = ({ setIsAuthenticated }) => {
         </Button>
       </Form>
       {showError && (
-        <p style={{ color: "red", textAlign: "center", marginTop: "10px" }}>
-          Username and Password incorrect! Please try again.
+        <p
+          className='error-message'
+          style={{ color: "red", textAlign: "center", marginTop: "10px" }}
+        >
+          Invalid Credentials! Please try again.
         </p>
       )}
     </div>
