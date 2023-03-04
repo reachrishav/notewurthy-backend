@@ -1,18 +1,25 @@
-const faunadb = require("faunadb");
-require("dotenv").config();
+const faunadb = require("faunadb")
+require("dotenv").config()
 
-const q = faunadb.query;
+const q = faunadb.query
 const client = new faunadb.Client({
   secret: process.env.API_KEY,
-});
+})
 
 exports.handler = async function (event) {
-  let blogRemovalRequest = JSON.parse(event.body);
+  const headers = event.headers
+  if (headers["access-token"] !== process.env.POST_TOKEN) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ error: "Unauthorized" }),
+    }
+  }
+  let blogRemovalRequest = JSON.parse(event.body)
 
-  const idToDelete = blogRemovalRequest.id;
-  const collection = "blogs";
+  const idToDelete = blogRemovalRequest.id
+  const collection = "blogs"
 
-  await client.query(q.Delete(q.Ref(q.Collection(collection), idToDelete)));
+  await client.query(q.Delete(q.Ref(q.Collection(collection), idToDelete)))
 
   return {
     statusCode: 200,
@@ -22,5 +29,5 @@ exports.handler = async function (event) {
       "Access-Control-Allow-Headers": "Authorization, Content-Type",
       "Content-Type": "application/json",
     },
-  };
-};
+  }
+}

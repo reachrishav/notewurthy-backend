@@ -17,11 +17,20 @@ const AddBlog = ({
   }, [])
   async function handleAddSubmit(e) {
     e.preventDefault()
+    const config = {
+      headers: {
+        "access-token": process.env.REACT_APP_POST_TOKEN,
+      },
+    }
     await axios
-      .post("/api/addBlog", {
-        title: data.title,
-        description: data.description,
-      })
+      .post(
+        "/api/addBlog",
+        {
+          title: data.title,
+          description: data.description,
+        },
+        config
+      )
       .then(res => {
         console.log(res.data)
       })
@@ -31,12 +40,21 @@ const AddBlog = ({
 
   async function handleEditSubmit(e) {
     e.preventDefault()
+    const config = {
+      headers: {
+        "access-token": process.env.REACT_APP_POST_TOKEN,
+      },
+    }
     await axios
-      .post("/api/editBlog", {
-        id: blogRef,
-        title: data.title,
-        description: data.description,
-      })
+      .post(
+        "/api/editBlog",
+        {
+          id: blogRef,
+          title: data.title,
+          description: data.description,
+        },
+        config
+      )
       .then(res => {
         console.log(res.data)
       })

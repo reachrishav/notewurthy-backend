@@ -21,8 +21,13 @@ export default function Blogs({
 
   const handleDelete = async event => {
     event.preventDefault()
+    const config = {
+      headers: {
+        "access-token": process.env.REACT_APP_POST_TOKEN,
+      },
+    }
     await axios
-      .post("/api/removeBlog", { id: selectedId })
+      .post("/api/removeBlog", { id: selectedId }, config)
       .then(res => {
         console.log(res.data)
       })
