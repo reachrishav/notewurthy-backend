@@ -3,11 +3,11 @@ import Navbar from "react-bootstrap/Navbar"
 import Button from "react-bootstrap/Button"
 
 function Header() {
-//   {
-//   setIsViewBlogsVisible,
-//   isViewBlogsVisible,
-//   setSelectedBlogRef,
-// }
+  //   {
+  //   setIsViewBlogsVisible,
+  //   isViewBlogsVisible,
+  //   setSelectedBlogRef,
+  // }
   return (
     <Navbar collapseOnSelect expand='lg' variant='dark'>
       <Container fluid className='justify-content-between'>
@@ -26,6 +26,7 @@ function Header() {
         >
           {isViewBlogsVisible ? "Add Blog" : "View Blogs"}
         </Button> */}
+        <h4>Admin - Panel</h4>
       </Container>
     </Navbar>
   )

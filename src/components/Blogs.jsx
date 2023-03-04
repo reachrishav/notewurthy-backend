@@ -13,6 +13,7 @@ export default function Blogs({
   setSelectedBlogDescription,
   setIsViewBlogsVisible,
   loading,
+  isViewBlogsVisible,
 }) {
   const [modalShow, setModalShow] = useState(false)
   const [selectedId, setSelectedId] = useState(0)
@@ -95,65 +96,77 @@ export default function Blogs({
   return (
     <>
       {loading ? (
-        <Container fluid>
-          <table
-            {...getTableProps()}
-            style={{
-              width: "80%",
-              margin: "auto",
-              borderCollapse: "separate",
+        <>
+          <Button
+            className='add-btn'
+            variant='primary'
+            onClick={() => {
+              setIsViewBlogsVisible(!isViewBlogsVisible)
+              setSelectedBlogRef(0)
             }}
           >
-            <thead>
-              {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map(column => (
-                    <th
-                      {...column.getHeaderProps()}
-                      style={{
-                        borderBottom: "solid 3px #676bdc",
-                        background: "#212124",
-                        color: "white",
-                        fontWeight: "bold",
-                        padding: "8px",
-                        textAlign: "center",
-                        border: "solid 1px gray",
-                      }}
-                    >
-                      {column.render("Header")}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-
-            <tbody {...getTableBodyProps()}>
-              {rows.map(row => {
-                prepareRow(row)
-
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map(cell => {
-                      return (
-                        <td
-                          {...cell.getCellProps()}
-                          style={{
-                            padding: "10px",
-                            border: "solid 1px gray",
-                            color: "white",
-                            background: "#413e39",
-                          }}
-                        >
-                          {cell.render("Cell")}
-                        </td>
-                      )
-                    })}
+            {isViewBlogsVisible ? "Add Blog" : "View Blogs"}
+          </Button>
+          <Container fluid>
+            <table
+              {...getTableProps()}
+              style={{
+                width: "80%",
+                margin: "auto",
+                borderCollapse: "separate",
+              }}
+            >
+              <thead>
+                {headerGroups.map(headerGroup => (
+                  <tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map(column => (
+                      <th
+                        {...column.getHeaderProps()}
+                        style={{
+                          borderBottom: "solid 3px #676bdc",
+                          background: "#212124",
+                          color: "white",
+                          fontWeight: "bold",
+                          padding: "8px",
+                          textAlign: "center",
+                          border: "solid 1px gray",
+                        }}
+                      >
+                        {column.render("Header")}
+                      </th>
+                    ))}
                   </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </Container>
+                ))}
+              </thead>
+
+              <tbody {...getTableBodyProps()}>
+                {rows.map(row => {
+                  prepareRow(row)
+
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map(cell => {
+                        return (
+                          <td
+                            {...cell.getCellProps()}
+                            style={{
+                              padding: "10px",
+                              border: "solid 1px gray",
+                              color: "white",
+                              background: "#413e39",
+                            }}
+                          >
+                            {cell.render("Cell")}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </Container>
+        </>
       ) : (
         <img src={Spinner} alt='' className='spinner-animation' />
       )}

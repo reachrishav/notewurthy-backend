@@ -5,24 +5,25 @@ import { useState } from "react"
 
 const Login = ({ setIsAuthenticated }) => {
   const [data, setData] = useState({ username: "", password: "" })
+  const [showError, setShowError] = useState(false)
   const navigate = useNavigate()
 
   function handleSubmit(e) {
     e.preventDefault()
-    console.log(process.env.REACT_APP_ADMIN_USERNAME)
     if (
       data.username == process.env.REACT_APP_ADMIN_USERNAME &&
-      data.password == process.env.REACT_APP_ADMIN_USERNAME
+      data.password == process.env.REACT_APP_ADMIN_PASSWORD
     ) {
       setIsAuthenticated(true)
       navigate("/")
+    } else {
+      setShowError(true)
     }
   }
   function handleChange(e) {
     const newData = { ...data }
     newData[e.target.id] = e.target.value
     setData(newData)
-    console.log(newData)
   }
   return (
     <div>
@@ -61,6 +62,11 @@ const Login = ({ setIsAuthenticated }) => {
           Login
         </Button>
       </Form>
+      {showError && (
+        <p style={{ color: "red", textAlign: "center", marginTop: "10px" }}>
+          Username and Password incorrect! Please try again.
+        </p>
+      )}
     </div>
   )
 }

@@ -2,6 +2,7 @@ import Blogs from "./Blogs"
 import UpsertBlog from "./UpsertBlog"
 import { useState, useEffect } from "react"
 import axios from "axios"
+import Button from "react-bootstrap/Button"
 
 const Content = () => {
   const [blogs, setBlogs] = useState([])
@@ -23,15 +24,18 @@ const Content = () => {
   return (
     <>
       {isViewBlogsVisible ? (
-        <Blogs
-          blogs={blogs.sort((a, b) => b.created_at - a.created_at)}
-          setBlogs={setBlogs}
-          setSelectedBlogRef={setSelectedBlogRef}
-          setSelectedBlogTitle={setSelectedBlogTitle}
-          setSelectedBlogDescription={setSelectedBlogDescription}
-          setIsViewBlogsVisible={setIsViewBlogsVisible}
-          loading={loading}
-        />
+        <div>
+          <Blogs
+            blogs={blogs.sort((a, b) => b.created_at - a.created_at)}
+            setBlogs={setBlogs}
+            setSelectedBlogRef={setSelectedBlogRef}
+            setSelectedBlogTitle={setSelectedBlogTitle}
+            setSelectedBlogDescription={setSelectedBlogDescription}
+            setIsViewBlogsVisible={setIsViewBlogsVisible}
+            loading={loading}
+            isViewBlogsVisible={isViewBlogsVisible}
+          />
+        </div>
       ) : (
         <UpsertBlog
           blogRef={selectedBlogRef}
