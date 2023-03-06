@@ -3,18 +3,20 @@ import axios from "axios"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 
-const AddBlog = ({
+const UpsertBlog = ({
+  blogs,
   blogRef,
   blogTitle,
   blogDescription,
   setIsViewBlogsVisible,
   isViewBlogsVisible,
   setSelectedBlogRef,
+  setBlogs,
 }) => {
   const [data, setData] = useState({ title: "", description: "" })
   useEffect(() => {
     if (blogRef) setData({ title: blogTitle, description: blogDescription })
-  }, [])
+  }, [blogRef, blogTitle, blogDescription])
   async function handleAddSubmit(e) {
     e.preventDefault()
     const config = {
@@ -31,11 +33,11 @@ const AddBlog = ({
         },
         config
       )
-      .then(res => {
-        console.log(res.data)
+      .then(() => {
+        axios.get("/api/fetchBlogs").then(res => setBlogs(res.data))
+        setIsViewBlogsVisible(true)
       })
       .catch(e => console.log(e))
-    window.location.reload()
   }
 
   async function handleEditSubmit(e) {
@@ -55,11 +57,11 @@ const AddBlog = ({
         },
         config
       )
-      .then(res => {
-        console.log(res.data)
+      .then(() => {
+        axios.get("/api/fetchBlogs").then(res => setBlogs(res.data))
+        setIsViewBlogsVisible(true)
       })
       .catch(event => console.log(event))
-    window.location.reload()
   }
 
   function handleChange(e) {
@@ -79,7 +81,7 @@ const AddBlog = ({
         }}
       >
         <i
-          class='fa-solid fa-arrow-left'
+          className='fa-solid fa-arrow-left'
           style={{ backgroundColor: "#676bdc", marginRight: "4px" }}
         ></i>
         Back to Home
@@ -124,4 +126,4 @@ const AddBlog = ({
   )
 }
 
-export default AddBlog
+export default UpsertBlog

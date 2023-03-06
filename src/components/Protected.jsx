@@ -5,8 +5,7 @@ const Protected = props => {
   const { Component, isAuthenticated } = props
   const navigate = useNavigate()
   useEffect(() => {
-    if (!isAuthenticated && !sessionStorage.getItem("IsAuthenticated"))
-      navigate("/login")
+    if (!isAuthenticated) navigate("/login")
   })
   return (
     <div>

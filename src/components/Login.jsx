@@ -15,7 +15,6 @@ const Login = ({ setIsAuthenticated }) => {
       data.password == process.env.REACT_APP_ADMIN_PASSWORD
     ) {
       setIsAuthenticated(true)
-      sessionStorage.setItem("IsAuthenticated", true)
       navigate("/")
     } else {
       setShowError(true)

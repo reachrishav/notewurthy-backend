@@ -14,6 +14,9 @@ export default function Blogs({
   setIsViewBlogsVisible,
   loading,
   isViewBlogsVisible,
+  setBlogs,
+  // setIsChanged,
+  // setLoading,
 }) {
   const [modalShow, setModalShow] = useState(false)
   const [selectedId, setSelectedId] = useState(0)
@@ -28,11 +31,11 @@ export default function Blogs({
     }
     await axios
       .post("/api/removeBlog", { id: selectedId }, config)
-      .then(res => {
-        console.log(res.data)
+      .then(() => {
+        setModalShow(false)
+        axios.get("/api/fetchBlogs").then(res => setBlogs(res.data))
       })
       .catch(event => console.log(event))
-    window.location.reload()
   }
 
   const data = useMemo(

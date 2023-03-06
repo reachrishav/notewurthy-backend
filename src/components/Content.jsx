@@ -10,6 +10,7 @@ const Content = () => {
   const [loading, setLoading] = useState(false)
   const [isViewBlogsVisible, setIsViewBlogsVisible] = useState(true)
   const [selectedBlogRef, setSelectedBlogRef] = useState(0)
+  // const [isChanged, setIsChanged] = useState(false)
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -33,6 +34,7 @@ const Content = () => {
             setIsViewBlogsVisible={setIsViewBlogsVisible}
             loading={loading}
             isViewBlogsVisible={isViewBlogsVisible}
+            // setIsChanged={setIsChanged}
           />
         </div>
       ) : (
@@ -43,6 +45,8 @@ const Content = () => {
           setIsViewBlogsVisible={setIsViewBlogsVisible}
           isViewBlogsVisible={isViewBlogsVisible}
           setSelectedBlogRef={setSelectedBlogRef}
+          setBlogs={setBlogs}
+          blogs={blogs}
         />
       )}
     </>
