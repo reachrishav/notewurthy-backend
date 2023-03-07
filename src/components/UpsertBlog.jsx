@@ -96,6 +96,7 @@ const UpsertBlog = ({
             onChange={e => handleChange(e)}
             defaultValue={blogRef ? blogTitle : ""}
             required
+            autoFocus
           />
           <Form.Control.Feedback type='invalid'>
             Please provide a title.

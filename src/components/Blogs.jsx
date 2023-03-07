@@ -1,16 +1,16 @@
-import Button from "react-bootstrap/Button";
+import Button from "react-bootstrap/Button"
 import {
   useFilters,
   useTable,
   useAsyncDebounce,
   useGlobalFilter,
   usePagination,
-} from "react-table";
-import { useMemo, useState, useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Modal from "react-bootstrap/Modal";
-import axios from "axios";
-import Spinner from "../assets/rolling-transparent.svg";
+} from "react-table"
+import { useMemo, useState, useEffect } from "react"
+import Container from "react-bootstrap/Container"
+import Modal from "react-bootstrap/Modal"
+import axios from "axios"
+import Spinner from "../assets/rolling-transparent.svg"
 
 export default function Blogs({
   setSelectedBlogRef,
@@ -24,11 +24,11 @@ export default function Blogs({
     globalFilter,
     setGlobalFilter,
   }) {
-    const count = preGlobalFilteredRows.length;
-    const [value, setValue] = useState(globalFilter);
-    const onChange = useAsyncDebounce((value) => {
-      setGlobalFilter(value || undefined);
-    }, 200);
+    const count = preGlobalFilteredRows.length
+    const [value, setValue] = useState(globalFilter)
+    const onChange = useAsyncDebounce(value => {
+      setGlobalFilter(value || undefined)
+    }, 200)
 
     return (
       <>
@@ -38,23 +38,23 @@ export default function Blogs({
             textAlign: "center",
           }}
         >
-          <div class="input-group mb-3 w-50 m-auto">
+          <div class='input-group mb-3 w-50 m-auto'>
             <input
-              id="search-field"
-              type="text"
-              class="form-control"
+              id='search-field'
+              type='text'
+              class='form-control'
               placeholder={`Search in ${count} records...`}
               aria-label="Recipient's username"
-              aria-describedby="button-addon2"
+              aria-describedby='button-addon2'
             />
             <button
-              class="btn btn-outline-secondary"
-              type="button"
-              id="button-addon2"
-              onClick={(e) => {
-                const val = document.getElementById("search-field").value;
-                setValue(val);
-                onChange(val);
+              class='btn btn-outline-secondary'
+              type='button'
+              id='button-addon2'
+              onClick={e => {
+                const val = document.getElementById("search-field").value
+                setValue(val)
+                onChange(val)
               }}
             >
               Search
@@ -62,39 +62,39 @@ export default function Blogs({
           </div>
         </div>
       </>
-    );
+    )
   }
 
-  const [modalShow, setModalShow] = useState(false);
-  const [selectedId, setSelectedId] = useState(0);
-  const handleModalShow = () => setModalShow(true);
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [modalShow, setModalShow] = useState(false)
+  const [selectedId, setSelectedId] = useState(0)
+  const handleModalShow = () => setModalShow(true)
+  const [blogs, setBlogs] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const res = await axios.get("/api/fetchBlogs");
-      setBlogs(res.data);
-      setLoading(true);
-    };
-    fetchBlogs();
-  }, []);
+      const res = await axios.get("/api/fetchBlogs")
+      setBlogs(res.data)
+      setLoading(true)
+    }
+    fetchBlogs()
+  }, [])
 
-  const handleDelete = async (event) => {
-    event.preventDefault();
+  const handleDelete = async event => {
+    event.preventDefault()
     const config = {
       headers: {
         "access-token": process.env.REACT_APP_POST_TOKEN,
       },
-    };
+    }
     await axios
       .post("/api/removeBlog", { id: selectedId }, config)
       .then(() => {
-        setModalShow(false);
-        axios.get("/api/fetchBlogs").then((res) => setBlogs(res.data));
+        setModalShow(false)
+        axios.get("/api/fetchBlogs").then(res => setBlogs(res.data))
       })
-      .catch((event) => console.log(event));
-  };
+      .catch(event => console.log(event))
+  }
 
   const data = useMemo(
     () =>
@@ -111,33 +111,33 @@ export default function Blogs({
               blog.description.split(" ").length > 25 ? "..." : ""
             }`,
             actions: (
-              <div className="action-buttons">
+              <div className='action-buttons'>
                 <Button
-                  onClick={(event) => {
-                    setSelectedBlogRef(blog.id);
-                    setSelectedBlogTitle(blog.title);
-                    setSelectedBlogDescription(blog.description);
-                    setIsViewBlogsVisible(false);
+                  onClick={event => {
+                    setSelectedBlogRef(blog.id)
+                    setSelectedBlogTitle(blog.title)
+                    setSelectedBlogDescription(blog.description)
+                    setIsViewBlogsVisible(false)
                   }}
-                  variant="info"
+                  variant='info'
                 >
                   Edit
                 </Button>
                 <Button
                   onClick={() => {
-                    setSelectedId(blog.id);
-                    handleModalShow();
+                    setSelectedId(blog.id)
+                    handleModalShow()
                   }}
-                  variant="danger"
+                  variant='danger'
                 >
                   Remove
                 </Button>
               </div>
             ),
-          };
+          }
         }),
     [blogs, setIsViewBlogsVisible, setSelectedBlogRef]
-  );
+  )
 
   const columns = useMemo(
     () => [
@@ -159,13 +159,12 @@ export default function Blogs({
       },
     ],
     []
-  );
+  )
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    // rows,
     page,
     canPreviousPage,
     canNextPage,
@@ -180,18 +179,23 @@ export default function Blogs({
     prepareRow,
     preGlobalFilteredRows,
     setGlobalFilter,
-  } = useTable({ columns, data, initialState: { pageSize: 5 } }, useFilters, useGlobalFilter, usePagination);
+  } = useTable(
+    { columns, data, initialState: { pageSize: 5 } },
+    useFilters,
+    useGlobalFilter,
+    usePagination
+  )
 
   return (
     <>
       {loading ? (
         <>
           <Button
-            className="add-btn"
-            variant="primary"
+            className='add-btn'
+            variant='primary'
             onClick={() => {
-              setIsViewBlogsVisible(!isViewBlogsVisible);
-              setSelectedBlogRef(0);
+              setIsViewBlogsVisible(!isViewBlogsVisible)
+              setSelectedBlogRef(0)
             }}
           >
             {isViewBlogsVisible ? "Add Blog" : "View Blogs"}
@@ -211,9 +215,9 @@ export default function Blogs({
               }}
             >
               <thead>
-                {headerGroups.map((headerGroup) => (
+                {headerGroups.map(headerGroup => (
                   <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map((column) => (
+                    {headerGroup.headers.map(column => (
                       <th
                         {...column.getHeaderProps()}
                         style={{
@@ -234,12 +238,12 @@ export default function Blogs({
               </thead>
 
               <tbody {...getTableBodyProps()}>
-                {page.map((row) => {
-                  prepareRow(row);
+                {page.map(row => {
+                  prepareRow(row)
 
                   return (
                     <tr {...row.getRowProps()}>
-                      {row.cells.map((cell) => {
+                      {row.cells.map(cell => {
                         return (
                           <td
                             {...cell.getCellProps()}
@@ -252,19 +256,47 @@ export default function Blogs({
                           >
                             {cell.render("Cell")}
                           </td>
-                        );
+                        )
                       })}
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </table>
           </Container>
-          <div className="pagination mx-auto">
-            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} type="button" class="btn btn-light">{'<<'}</button>
-            <button onClick={() => previousPage()} disabled={!canPreviousPage} type="button" class="btn btn-light">{'<'}</button>
-            <button onClick={() => nextPage()} disabled={!canNextPage} type="button" class="btn btn-light">{'>'}</button>
-            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} type="button" class="btn btn-light">{'>>'}</button>
+          <div className='pagination mx-auto'>
+            <button
+              onClick={() => gotoPage(0)}
+              disabled={!canPreviousPage}
+              type='button'
+              class='btn btn-light'
+            >
+              {"<<"}
+            </button>
+            <button
+              onClick={() => previousPage()}
+              disabled={!canPreviousPage}
+              type='button'
+              class='btn btn-light'
+            >
+              {"<"}
+            </button>
+            <button
+              onClick={() => nextPage()}
+              disabled={!canNextPage}
+              type='button'
+              class='btn btn-light'
+            >
+              {">"}
+            </button>
+            <button
+              onClick={() => gotoPage(pageCount - 1)}
+              disabled={!canNextPage}
+              type='button'
+              class='btn btn-light'
+            >
+              {">>"}
+            </button>
             <span>
               Page{" "}
               <strong>
@@ -273,13 +305,14 @@ export default function Blogs({
             </span>
             <select
               value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
+              onChange={e => {
+                setPageSize(Number(e.target.value))
               }}
-              className="form-select" aria-label="Default select example"
-              id="pagination-select"
+              className='form-select'
+              aria-label='Default select example'
+              id='pagination-select'
             >
-              {[5, 10, 15, 20].map((pageSize) => (
+              {[5, 10, 15, 20].map(pageSize => (
                 <option key={pageSize} value={pageSize}>
                   Show {pageSize}
                 </option>
@@ -288,7 +321,7 @@ export default function Blogs({
           </div>
         </>
       ) : (
-        <img src={Spinner} alt="" className="spinner-animation" />
+        <img src={Spinner} alt='' className='spinner-animation' />
       )}
       <Modal show={modalShow} onHide={() => setModalShow(false)}>
         <Modal.Header closeButton>
@@ -296,14 +329,14 @@ export default function Blogs({
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete the blog?</Modal.Body>
         <Modal.Footer style={{ backgroundColor: "#374151" }}>
-          <Button variant="secondary" onClick={() => setModalShow(false)}>
+          <Button variant='secondary' onClick={() => setModalShow(false)}>
             Close
           </Button>
-          <Button variant="danger" onClick={(event) => handleDelete(event)}>
+          <Button variant='danger' onClick={event => handleDelete(event)}>
             Delete
           </Button>
         </Modal.Footer>
       </Modal>
     </>
-  );
+  )
 }
