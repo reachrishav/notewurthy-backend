@@ -1,10 +1,15 @@
-import Button from "react-bootstrap/Button"
-import { useTable } from "react-table"
-import { useMemo, useState, useEffect } from "react"
-import Container from "react-bootstrap/Container"
-import Modal from "react-bootstrap/Modal"
-import axios from "axios"
-import Spinner from "../assets/rolling-transparent.svg"
+import Button from "react-bootstrap/Button";
+import {
+  useFilters,
+  useTable,
+  useAsyncDebounce,
+  useGlobalFilter,
+} from "react-table";
+import { useMemo, useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Modal from "react-bootstrap/Modal";
+import axios from "axios";
+import Spinner from "../assets/rolling-transparent.svg";
 
 export default function Blogs({
   setSelectedBlogRef,
@@ -13,36 +18,82 @@ export default function Blogs({
   setIsViewBlogsVisible,
   isViewBlogsVisible,
 }) {
-  const [modalShow, setModalShow] = useState(false)
-  const [selectedId, setSelectedId] = useState(0)
-  const handleModalShow = () => setModalShow(true)
-  const [blogs, setBlogs] = useState([])
-  const [loading, setLoading] = useState(false)
+  function GlobalFilter({
+    preGlobalFilteredRows,
+    globalFilter,
+    setGlobalFilter,
+  }) {
+    const count = preGlobalFilteredRows.length;
+    const [value, setValue] = useState(globalFilter);
+    const onChange = useAsyncDebounce((value) => {
+      setGlobalFilter(value || undefined);
+    }, 200);
+
+    return (
+      <>
+        <div
+          style={{
+            margin: "auto",
+            textAlign: "center",
+          }}
+        >
+          <div class="input-group mb-3 w-50 m-auto">
+            <input
+              id='search-field'
+              type="text"
+              class="form-control"
+              placeholder={`Search in ${count} records...`}
+              aria-label="Recipient's username"
+              aria-describedby="button-addon2"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="button-addon2"
+              onClick={(e) => {
+                const val = document.getElementById('search-field').value;
+                setValue(val);
+                onChange(val);
+              }}
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  const [modalShow, setModalShow] = useState(false);
+  const [selectedId, setSelectedId] = useState(0);
+  const handleModalShow = () => setModalShow(true);
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const res = await axios.get("/api/fetchBlogs")
-      setBlogs(res.data)
-      setLoading(true)
-    }
-    fetchBlogs()
-  }, [])
+      const res = await axios.get("/api/fetchBlogs");
+      setBlogs(res.data);
+      setLoading(true);
+    };
+    fetchBlogs();
+  }, []);
 
-  const handleDelete = async event => {
-    event.preventDefault()
+  const handleDelete = async (event) => {
+    event.preventDefault();
     const config = {
       headers: {
         "access-token": process.env.REACT_APP_POST_TOKEN,
       },
-    }
+    };
     await axios
       .post("/api/removeBlog", { id: selectedId }, config)
       .then(() => {
-        setModalShow(false)
-        axios.get("/api/fetchBlogs").then(res => setBlogs(res.data))
+        setModalShow(false);
+        axios.get("/api/fetchBlogs").then((res) => setBlogs(res.data));
       })
-      .catch(event => console.log(event))
-  }
+      .catch((event) => console.log(event));
+  };
 
   const data = useMemo(
     () =>
@@ -59,33 +110,33 @@ export default function Blogs({
               blog.description.split(" ").length > 25 ? "..." : ""
             }`,
             actions: (
-              <div className='action-buttons'>
+              <div className="action-buttons">
                 <Button
-                  onClick={event => {
-                    setSelectedBlogRef(blog.id)
-                    setSelectedBlogTitle(blog.title)
-                    setSelectedBlogDescription(blog.description)
-                    setIsViewBlogsVisible(false)
+                  onClick={(event) => {
+                    setSelectedBlogRef(blog.id);
+                    setSelectedBlogTitle(blog.title);
+                    setSelectedBlogDescription(blog.description);
+                    setIsViewBlogsVisible(false);
                   }}
-                  variant='info'
+                  variant="info"
                 >
                   Edit
                 </Button>
                 <Button
                   onClick={() => {
-                    setSelectedId(blog.id)
-                    handleModalShow()
+                    setSelectedId(blog.id);
+                    handleModalShow();
                   }}
-                  variant='danger'
+                  variant="danger"
                 >
                   Remove
                 </Button>
               </div>
             ),
-          }
+          };
         }),
     [blogs, setIsViewBlogsVisible, setSelectedBlogRef]
-  )
+  );
 
   const columns = useMemo(
     () => [
@@ -107,26 +158,39 @@ export default function Blogs({
       },
     ],
     []
-  )
+  );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data })
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    state,
+    prepareRow,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+  } = useTable({ columns, data }, useFilters, useGlobalFilter);
 
   return (
     <>
       {loading ? (
         <>
           <Button
-            className='add-btn'
-            variant='primary'
+            className="add-btn"
+            variant="primary"
             onClick={() => {
-              setIsViewBlogsVisible(!isViewBlogsVisible)
-              setSelectedBlogRef(0)
+              setIsViewBlogsVisible(!isViewBlogsVisible);
+              setSelectedBlogRef(0);
             }}
           >
             {isViewBlogsVisible ? "Add Blog" : "View Blogs"}
           </Button>
           <Container fluid>
+            <GlobalFilter
+              preGlobalFilteredRows={preGlobalFilteredRows}
+              globalFilter={state.globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
             <table
               {...getTableProps()}
               style={{
@@ -136,9 +200,9 @@ export default function Blogs({
               }}
             >
               <thead>
-                {headerGroups.map(headerGroup => (
+                {headerGroups.map((headerGroup) => (
                   <tr {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map(column => (
+                    {headerGroup.headers.map((column) => (
                       <th
                         {...column.getHeaderProps()}
                         style={{
@@ -159,12 +223,12 @@ export default function Blogs({
               </thead>
 
               <tbody {...getTableBodyProps()}>
-                {rows.map(row => {
-                  prepareRow(row)
+                {rows.map((row) => {
+                  prepareRow(row);
 
                   return (
                     <tr {...row.getRowProps()}>
-                      {row.cells.map(cell => {
+                      {row.cells.map((cell) => {
                         return (
                           <td
                             {...cell.getCellProps()}
@@ -177,17 +241,17 @@ export default function Blogs({
                           >
                             {cell.render("Cell")}
                           </td>
-                        )
+                        );
                       })}
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
           </Container>
         </>
       ) : (
-        <img src={Spinner} alt='' className='spinner-animation' />
+        <img src={Spinner} alt="" className="spinner-animation" />
       )}
       <Modal show={modalShow} onHide={() => setModalShow(false)}>
         <Modal.Header closeButton>
@@ -195,14 +259,14 @@ export default function Blogs({
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete the blog?</Modal.Body>
         <Modal.Footer style={{ backgroundColor: "#374151" }}>
-          <Button variant='secondary' onClick={() => setModalShow(false)}>
+          <Button variant="secondary" onClick={() => setModalShow(false)}>
             Close
           </Button>
-          <Button variant='danger' onClick={event => handleDelete(event)}>
+          <Button variant="danger" onClick={(event) => handleDelete(event)}>
             Delete
           </Button>
         </Modal.Footer>
       </Modal>
     </>
-  )
+  );
 }
