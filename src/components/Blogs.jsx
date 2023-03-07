@@ -265,59 +265,65 @@ export default function Blogs({
             </table>
           </Container>
           <div className='pagination mx-auto'>
-            <button
-              onClick={() => gotoPage(0)}
-              disabled={!canPreviousPage}
-              type='button'
-              class='btn btn-light'
-            >
-              {"<<"}
-            </button>
-            <button
-              onClick={() => previousPage()}
-              disabled={!canPreviousPage}
-              type='button'
-              class='btn btn-light'
-            >
-              {"<"}
-            </button>
-            <button
-              onClick={() => nextPage()}
-              disabled={!canNextPage}
-              type='button'
-              class='btn btn-light'
-            >
-              {">"}
-            </button>
-            <button
-              onClick={() => gotoPage(pageCount - 1)}
-              disabled={!canNextPage}
-              type='button'
-              class='btn btn-light'
-            >
-              {">>"}
-            </button>
-            <span>
-              Page{" "}
-              <strong>
-                {pageIndex + 1} of {pageOptions.length}
-              </strong>{" "}
-            </span>
-            <select
-              value={pageSize}
-              onChange={e => {
-                setPageSize(Number(e.target.value))
-              }}
-              className='form-select'
-              aria-label='Default select example'
-              id='pagination-select'
-            >
-              {[5, 10, 15, 20].map(pageSize => (
-                <option key={pageSize} value={pageSize}>
-                  Show {pageSize}
-                </option>
-              ))}
-            </select>
+            <div className='pagination-items'>
+              <button
+                onClick={() => gotoPage(0)}
+                disabled={!canPreviousPage}
+                type='button'
+                className='btn btn-light pagination-buttons'
+              >
+                {"<<"}
+              </button>
+              <button
+                onClick={() => previousPage()}
+                disabled={!canPreviousPage}
+                type='button'
+                className='btn btn-light pagination-buttons'
+              >
+                {"<"}
+              </button>
+              <button
+                onClick={() => nextPage()}
+                disabled={!canNextPage}
+                type='button'
+                className='btn btn-light pagination-buttons'
+              >
+                {">"}
+              </button>
+              <button
+                onClick={() => gotoPage(pageCount - 1)}
+                disabled={!canNextPage}
+                type='button'
+                className='btn btn-light pagination-buttons'
+              >
+                {">>"}
+              </button>
+            </div>
+            <div className='pagination-items'>
+              <span>
+                Page{" "}
+                <strong>
+                  {pageIndex + 1} of {pageOptions.length}
+                </strong>{" "}
+              </span>
+            </div>
+            <div className='pagination-items'>
+              <select
+                value={pageSize}
+                onChange={e => {
+                  setPageSize(Number(e.target.value))
+                }}
+                className='form-select'
+                aria-label='Default select example'
+                id='pagination-select'
+              >
+                {[5, 10, 15, 20].map(pageSize => (
+                  <option key={pageSize} value={pageSize}>
+                    Show {pageSize}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </>
       ) : (

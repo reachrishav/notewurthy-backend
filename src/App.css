@@ -121,7 +121,7 @@ footer {
 }
 
 .pagination > * {
-	margin: 10px 3px;
+	/* margin: 50px 0px 3px 3px; */
 	/* padding: 0 3px; */
 	/* height: 2rem; */
 	min-width: 2rem;
@@ -139,4 +139,10 @@ footer {
 
 .pagination > button {
 	width: 2.5rem;
+}
+.pagination-items {
+  margin: 50px 0 60px 60px;
+}
+.pagination-buttons{
+  margin-left: 10px;
 }
