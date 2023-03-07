@@ -4,6 +4,7 @@ import {
   useTable,
   useAsyncDebounce,
   useGlobalFilter,
+  usePagination,
 } from "react-table";
 import { useMemo, useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
@@ -39,7 +40,7 @@ export default function Blogs({
         >
           <div class="input-group mb-3 w-50 m-auto">
             <input
-              id='search-field'
+              id="search-field"
               type="text"
               class="form-control"
               placeholder={`Search in ${count} records...`}
@@ -51,7 +52,7 @@ export default function Blogs({
               type="button"
               id="button-addon2"
               onClick={(e) => {
-                const val = document.getElementById('search-field').value;
+                const val = document.getElementById("search-field").value;
                 setValue(val);
                 onChange(val);
               }}
@@ -164,12 +165,22 @@ export default function Blogs({
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    // rows,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
     state,
     prepareRow,
     preGlobalFilteredRows,
     setGlobalFilter,
-  } = useTable({ columns, data }, useFilters, useGlobalFilter);
+  } = useTable({ columns, data, initialState: { pageSize: 5 } }, useFilters, useGlobalFilter, usePagination);
 
   return (
     <>
@@ -223,7 +234,7 @@ export default function Blogs({
               </thead>
 
               <tbody {...getTableBodyProps()}>
-                {rows.map((row) => {
+                {page.map((row) => {
                   prepareRow(row);
 
                   return (
@@ -249,6 +260,32 @@ export default function Blogs({
               </tbody>
             </table>
           </Container>
+          <div className="pagination mx-auto">
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage} type="button" class="btn btn-light">{'<<'}</button>
+            <button onClick={() => previousPage()} disabled={!canPreviousPage} type="button" class="btn btn-light">{'<'}</button>
+            <button onClick={() => nextPage()} disabled={!canNextPage} type="button" class="btn btn-light">{'>'}</button>
+            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} type="button" class="btn btn-light">{'>>'}</button>
+            <span>
+              Page{" "}
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>{" "}
+            </span>
+            <select
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+              }}
+              className="form-select" aria-label="Default select example"
+              id="pagination-select"
+            >
+              {[5, 10, 15, 20].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
         </>
       ) : (
         <img src={Spinner} alt="" className="spinner-animation" />
