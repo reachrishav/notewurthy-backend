@@ -1,26 +1,32 @@
 import Button from "react-bootstrap/Button"
 import { useTable } from "react-table"
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import axios from "axios"
 import Spinner from "../assets/rolling-transparent.svg"
 
 export default function Blogs({
-  blogs,
   setSelectedBlogRef,
   setSelectedBlogTitle,
   setSelectedBlogDescription,
   setIsViewBlogsVisible,
-  loading,
   isViewBlogsVisible,
-  setBlogs,
-  // setIsChanged,
-  // setLoading,
 }) {
   const [modalShow, setModalShow] = useState(false)
   const [selectedId, setSelectedId] = useState(0)
   const handleModalShow = () => setModalShow(true)
+  const [blogs, setBlogs] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const res = await axios.get("/api/fetchBlogs")
+      setBlogs(res.data)
+      setLoading(true)
+    }
+    fetchBlogs()
+  }, [])
 
   const handleDelete = async event => {
     event.preventDefault()
@@ -40,39 +46,44 @@ export default function Blogs({
 
   const data = useMemo(
     () =>
-      blogs.map((blog, index) => {
-        return {
-          slno: index + 1,
-          title: blog.title,
-          description: `${blog.description.split(" ").slice(0, 25).join(" ")}${
-            blog.description.split(" ").length > 25 ? "..." : ""
-          }`,
-          actions: (
-            <div className='action-buttons'>
-              <Button
-                onClick={event => {
-                  setSelectedBlogRef(blog.id)
-                  setSelectedBlogTitle(blog.title)
-                  setSelectedBlogDescription(blog.description)
-                  setIsViewBlogsVisible(false)
-                }}
-                variant='info'
-              >
-                Edit
-              </Button>
-              <Button
-                onClick={() => {
-                  setSelectedId(blog.id)
-                  handleModalShow()
-                }}
-                variant='danger'
-              >
-                Remove
-              </Button>
-            </div>
-          ),
-        }
-      }),
+      blogs
+        .sort((a, b) => b.created_at - a.created_at)
+        .map((blog, index) => {
+          return {
+            slno: index + 1,
+            title: blog.title,
+            description: `${blog.description
+              .split(" ")
+              .slice(0, 25)
+              .join(" ")}${
+              blog.description.split(" ").length > 25 ? "..." : ""
+            }`,
+            actions: (
+              <div className='action-buttons'>
+                <Button
+                  onClick={event => {
+                    setSelectedBlogRef(blog.id)
+                    setSelectedBlogTitle(blog.title)
+                    setSelectedBlogDescription(blog.description)
+                    setIsViewBlogsVisible(false)
+                  }}
+                  variant='info'
+                >
+                  Edit
+                </Button>
+                <Button
+                  onClick={() => {
+                    setSelectedId(blog.id)
+                    handleModalShow()
+                  }}
+                  variant='danger'
+                >
+                  Remove
+                </Button>
+              </div>
+            ),
+          }
+        }),
     [blogs, setIsViewBlogsVisible, setSelectedBlogRef]
   )
 
